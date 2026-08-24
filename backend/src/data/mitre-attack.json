@@ -1,0 +1,92 @@
+[
+  {
+    "techniqueId": "T1110",
+    "name": "Brute Force",
+    "tactic": "Credential Access",
+    "description": "Adversaries may use brute force techniques to systematically guess passwords and gain access to user accounts."
+  },
+  {
+    "techniqueId": "T1190",
+    "name": "Exploit Public-Facing Application",
+    "tactic": "Initial Access",
+    "description": "Adversaries may attempt to exploit vulnerabilities such as SQL injection or buffer overflows in Internet-facing applications to gain access."
+  },
+  {
+    "techniqueId": "T1046",
+    "name": "Network Service Discovery",
+    "tactic": "Discovery",
+    "description": "Adversaries may enumerate network services and open ports to identify remote systems and exploitable listening services."
+  },
+  {
+    "techniqueId": "T1071",
+    "name": "Application Layer Protocol",
+    "tactic": "Command and Control",
+    "description": "Adversaries may communicate using application layer protocols such as HTTP or HTTPS to blend in with normal network traffic and avoid detection."
+  },
+  {
+    "techniqueId": "T1059",
+    "name": "Command and Scripting Interpreter",
+    "tactic": "Execution",
+    "description": "Adversaries may abuse command and script interpreters such as PowerShell or Unix Shell to execute commands and malicious scripts."
+  },
+  {
+    "techniqueId": "T1078",
+    "name": "Valid Accounts",
+    "tactic": "Initial Access / Persistence",
+    "description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining initial access and maintaining persistence."
+  },
+  {
+    "techniqueId": "T1204",
+    "name": "User Execution",
+    "tactic": "Execution",
+    "description": "An adversary may rely on user actions, such as opening a malicious email attachment or clicking a link, to gain code execution."
+  },
+  {
+    "techniqueId": "T1055",
+    "name": "Process Injection",
+    "tactic": "Defense Evasion / Privilege Escalation",
+    "description": "Adversaries may inject code into processes in order to evade process-based defenses as well as possibly elevate privileges."
+  },
+  {
+    "techniqueId": "T1021",
+    "name": "Remote Services",
+    "tactic": "Lateral Movement",
+    "description": "Adversaries may use valid credentials to log into remote services like SSH, RDP, or SMB to move laterally across an internal network."
+  },
+  {
+    "techniqueId": "T1041",
+    "name": "Exfiltration Over C2 Channel",
+    "tactic": "Exfiltration",
+    "description": "Adversaries may exfiltrate stolen data by directing it through their existing command and control communications channel."
+  },
+  {
+    "techniqueId": "T1498",
+    "name": "Network Denial of Service",
+    "tactic": "Impact",
+    "description": "Adversaries may degrade or block the availability of targeted resources to users by exhausting network bandwidth and system resources."
+  },
+  {
+    "techniqueId": "T1083",
+    "name": "File and Directory Discovery",
+    "tactic": "Discovery",
+    "description": "Adversaries may enumerate files and directories or search in specific locations to locate sensitive data and configuration files."
+  },
+  {
+    "techniqueId": "T1566",
+    "name": "Phishing",
+    "tactic": "Initial Access",
+    "description": "Adversaries may send spearphishing emails with malicious attachments or links to compromise target victim workstations."
+  },
+  {
+    "techniqueId": "T1068",
+    "name": "Exploitation for Privilege Escalation",
+    "tactic": "Privilege Escalation",
+    "description": "Adversaries may exploit software vulnerabilities in operating systems or installed applications to elevate privileges to root or SYSTEM."
+  },
+  {
+    "techniqueId": "T1595",
+    "name": "Active Scanning",
+    "tactic": "Reconnaissance",
+    "description": "Adversaries may execute active reconnaissance scans such as vulnerability or port probes to gather information about targeted networks prior to exploitation."
+  }
+]

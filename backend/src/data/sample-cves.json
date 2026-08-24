@@ -1,0 +1,72 @@
+[
+  {
+    "cveId": "CVE-2023-38606",
+    "description": "An issue in the WebKit component could allow an app to modify sensitive kernel state, leading to arbitrary code execution.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "WebKit Engine"
+  },
+  {
+    "cveId": "CVE-2023-4863",
+    "description": "Heap buffer overflow in libwebp in Google Chrome prior to 116.0.5845.187 allowed a remote attacker to perform out-of-bounds memory write via a crafted HTML page.",
+    "cvssScore": 8.8,
+    "severity": "HIGH",
+    "affectedProduct": "libwebp / Google Chrome"
+  },
+  {
+    "cveId": "CVE-2023-22515",
+    "description": "Broken Access Control vulnerability in Confluence Data Center and Server allows an unauthenticated attacker to create unauthorized Confluence administrator accounts.",
+    "cvssScore": 10.0,
+    "severity": "CRITICAL",
+    "affectedProduct": "Atlassian Confluence"
+  },
+  {
+    "cveId": "CVE-2023-34362",
+    "description": "SQL injection vulnerability in the MOVEit Transfer web application that could allow an unauthenticated attacker to gain unauthorized access to the database.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "MOVEit Transfer"
+  },
+  {
+    "cveId": "CVE-2023-46604",
+    "description": "Apache ActiveMQ is vulnerable to Remote Code Execution allowing a remote attacker with network access to run arbitrary shell commands by manipulating serialized class types.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "Apache ActiveMQ"
+  },
+  {
+    "cveId": "CVE-2023-23397",
+    "description": "Microsoft Outlook Elevation of Privilege vulnerability allows an attacker to send a message containing an extended MAPI property with a UNC path to steal NTLM hashes.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "Microsoft Outlook"
+  },
+  {
+    "cveId": "CVE-2023-27997",
+    "description": "A heap-based buffer overflow vulnerability in FortiOS SSL-VPN may allow a remote unauthenticated attacker to execute arbitrary code or commands via crafted requests.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "Fortinet FortiOS"
+  },
+  {
+    "cveId": "CVE-2023-20887",
+    "description": "VMware Aria Operations for Networks contains a command injection vulnerability where a malicious actor with network access can execute arbitrary commands as root.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "VMware Aria Operations"
+  },
+  {
+    "cveId": "CVE-2023-35078",
+    "description": "Ivanti Endpoint Manager Mobile (EPMM) contains an authentication bypass vulnerability that allows unauthenticated access to specific API endpoints and personal data.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "Ivanti EPMM"
+  },
+  {
+    "cveId": "CVE-2023-2868",
+    "description": "Remote command injection vulnerability in the Barracuda Email Security Gateway (ESG) allows remote attackers to execute arbitrary system commands via crafted TAR archives.",
+    "cvssScore": 9.8,
+    "severity": "CRITICAL",
+    "affectedProduct": "Barracuda ESG"
+  }
+]
