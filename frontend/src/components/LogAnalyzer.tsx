@@ -1,8 +1,17 @@
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+
 import { LogEntry, Incident } from '@/types';
 import sampleLogsData from '@/data/sample-logs.json';
 
@@ -20,22 +29,29 @@ export function LogAnalyzer({
   onViewDetails,
 }: LogAnalyzerProps) {
   const sampleLogs = sampleLogsData as LogEntry[];
-  const [selectedLogId, setSelectedLogId] = useState<string>(sampleLogs[1]?.id || sampleLogs[0].id);
 
-  const selectedLog = sampleLogs.find((l) => l.id === selectedLogId) || sampleLogs[0];
+  const [selectedLogId, setSelectedLogId] = useState<string>(
+    sampleLogs[1]?.id || sampleLogs[0].id
+  );
+
+  const selectedLog =
+    sampleLogs.find((log) => log.id === selectedLogId) || sampleLogs[0];
 
   const handleRun = async () => {
     if (!selectedLogId || isAnalyzing) return;
+
     await onAnalyze(selectedLogId);
   };
 
-  const getSeverityVariant = (sev: string) => {
-    switch (sev.toLowerCase()) {
+  const getSeverityVariant = (severity: string) => {
+    switch (severity.toLowerCase()) {
       case 'critical':
       case 'high':
         return 'destructive';
+
       case 'medium':
         return 'default';
+
       case 'low':
       default:
         return 'secondary';
@@ -43,80 +59,150 @@ export function LogAnalyzer({
   };
 
   return (
-    <Card className="border-border bg-card">
-      <CardHeader>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+    <Card className="overflow-hidden border-border bg-card shadow-xl shadow-black/10">
+      <CardHeader className="border-b border-border pb-6 pt-6">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold">Run Security Analysis</CardTitle>
-            <CardDescription className="text-xs text-muted-foreground mt-1">
-              Select a security log to execute the 5-agent AI triage & threat correlation pipeline.
+            <div className="flex items-center gap-3">
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.6)]" />
+
+              <CardTitle className="text-xl font-semibold">
+                Run Security Analysis
+              </CardTitle>
+            </div>
+
+            <CardDescription className="mt-3 text-sm text-muted-foreground">
+              Select a security event and execute the multi-agent triage and
+              threat correlation pipeline.
             </CardDescription>
           </div>
+
           <Button
             onClick={handleRun}
             disabled={isAnalyzing}
-            className="w-full sm:w-auto font-medium"
+            className="h-11 min-w-[130px] bg-slate-100 px-6 font-semibold text-slate-900 transition-all hover:bg-white"
           >
-            {isAnalyzing ? 'Executing AI Pipeline...' : 'Run Analysis'}
+            {isAnalyzing ? 'Analyzing...' : 'Run Analysis'}
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground">Select Sample Log</label>
-            <select
-              value={selectedLogId}
-              onChange={(e) => setSelectedLogId(e.target.value)}
-              disabled={isAnalyzing}
-              aria-label="Select Sample Log"
-              className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              {sampleLogs.map((log) => (
-                <option key={log.id} value={log.id}>
-                  [{log.id}] {log.eventType} ({log.severity.toUpperCase()}) - {log.hostname}
-                </option>
-              ))}
-            </select>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-3 pt-6 md:pt-6">
-            <span className="text-xs text-muted-foreground">Event Type:</span>
-            <span className="text-xs font-mono bg-muted px-2 py-1 rounded">
+      <CardContent className="space-y-7 pt-7">
+        {/* ANALYSIS INPUT */}
+
+        <div className="space-y-3">
+          <label className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            Analysis Input
+          </label>
+
+          <select
+            value={selectedLogId}
+            onChange={(e) => setSelectedLogId(e.target.value)}
+            disabled={isAnalyzing}
+            aria-label="Select Sample Log"
+            className="h-14 w-full rounded-xl border border-sky-400/70 bg-background px-4 text-sm text-foreground outline-none transition-all focus:border-sky-400 focus:ring-2 focus:ring-sky-400/10"
+          >
+            {sampleLogs.map((log) => (
+              <option key={log.id} value={log.id}>
+                [{log.id}] {log.eventType} ({log.severity.toUpperCase()}) -{' '}
+                {log.hostname}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* EVENT DETAILS */}
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="rounded-xl border border-border bg-background/60 p-4">
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Event Type
+            </p>
+
+            <p className="mt-3 font-mono text-sm font-semibold text-foreground">
               {selectedLog.eventType}
-            </span>
+            </p>
+          </div>
 
-            <span className="text-xs text-muted-foreground ml-2">Initial Severity:</span>
-            <Badge variant={getSeverityVariant(selectedLog.severity)}>
-              {selectedLog.severity.toUpperCase()}
-            </Badge>
+          <div className="rounded-xl border border-border bg-background/60 p-4">
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Initial Severity
+            </p>
 
-            <span className="text-xs text-muted-foreground ml-2">Host:</span>
-            <span className="text-xs font-mono text-foreground">{selectedLog.hostname}</span>
+            <div className="mt-3">
+              <Badge
+                variant={getSeverityVariant(selectedLog.severity)}
+                className="px-3 py-1"
+              >
+                {selectedLog.severity.toUpperCase()}
+              </Badge>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-border bg-background/60 p-4">
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Target Host
+            </p>
+
+            <p className="mt-3 font-mono text-sm font-semibold text-foreground">
+              {selectedLog.hostname}
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-border bg-background/60 p-4">
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Network Path
+            </p>
+
+            <p className="mt-3 font-mono text-sm font-semibold text-foreground">
+              {selectedLog.sourceIp} → {selectedLog.destIp}
+            </p>
           </div>
         </div>
 
-        <div className="space-y-1.5">
+        {/* RAW TELEMETRY */}
+
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">Raw Telemetry</span>
-            <span className="text-xs font-mono text-muted-foreground">
-              {selectedLog.sourceIp} &rarr; {selectedLog.destIp}
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+              Raw Telemetry
+            </span>
+
+            <span className="text-xs text-muted-foreground">
+              Source security event
             </span>
           </div>
-          <div className="bg-background border border-border p-3 rounded-lg font-mono text-xs text-muted-foreground overflow-x-auto">
-            <code>{selectedLog.rawLog}</code>
-          </div>
-        </div>
 
-        {/* Loading State Skeleton */}
-        {isAnalyzing && (
-          <div className="p-4 border border-border rounded-lg bg-background/50 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-foreground animate-pulse">
-                Orchestrator: Dispatching agents (SOC Analyst, Threat Intel, Malware Analyst, Vulnerability Mapping, Report Generator)...
+          <div className="overflow-hidden rounded-xl border border-border bg-[#0b0e14]">
+            <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+              <div className="flex gap-2">
+                <span className="h-2 w-2 rounded-full bg-red-400" />
+                <span className="h-2 w-2 rounded-full bg-amber-300" />
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              </div>
+
+              <span className="ml-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Security Log
               </span>
             </div>
-            <div className="space-y-2">
+
+            <div className="overflow-x-auto p-5">
+              <code className="whitespace-pre-wrap break-words font-mono text-xs leading-7 text-slate-300">
+                {selectedLog.rawLog}
+              </code>
+            </div>
+          </div>
+        </div>
+
+        {/* LOADING STATE */}
+
+        {isAnalyzing && (
+          <div className="rounded-xl border border-sky-500/30 bg-sky-500/5 p-5">
+            <p className="mb-4 text-sm font-medium text-sky-200 animate-pulse">
+              Multi-agent orchestration in progress...
+            </p>
+
+            <div className="space-y-3">
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-5/6" />
@@ -124,30 +210,35 @@ export function LogAnalyzer({
           </div>
         )}
 
-        {/* Completed Flash Result */}
+        {/* LATEST RESULT */}
+
         {!isAnalyzing && latestIncident && (
-          <div className="p-4 border border-border rounded-lg bg-card/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-foreground">
-                  Latest Analysis: Log {latestIncident.logId}
+          <div className="flex flex-col items-start justify-between gap-5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5 sm:flex-row sm:items-center">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm font-semibold text-foreground">
+                  Analysis completed for {latestIncident.logId}
                 </span>
-                <Badge variant={getSeverityVariant(latestIncident.socAnalysis?.severity || 'low')}>
-                  {(latestIncident.socAnalysis?.severity || 'LOW').toUpperCase()}
+
+                <Badge
+                  variant={getSeverityVariant(
+                    latestIncident.socAnalysis?.severity || 'low'
+                  )}
+                >
+                  {(
+                    latestIncident.socAnalysis?.severity || 'LOW'
+                  ).toUpperCase()}
                 </Badge>
-                <span className="text-xs text-muted-foreground">
-                  Risk Score: {latestIncident.report?.riskScore || 0}/10
-                </span>
               </div>
-              <p className="text-xs text-muted-foreground line-clamp-1">
-                {latestIncident.report?.executiveSummary}
+
+              <p className="mt-2 text-sm text-muted-foreground">
+                Risk Score: {latestIncident.report?.riskScore || 0}/10
               </p>
             </div>
+
             <Button
               variant="outline"
-              size="sm"
               onClick={() => onViewDetails(latestIncident)}
-              className="shrink-0 text-xs"
             >
               View Full Report
             </Button>
