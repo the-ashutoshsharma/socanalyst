@@ -6,9 +6,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+
 import { Incident } from '@/types';
 
 interface IncidentsTableProps {
@@ -22,13 +31,15 @@ export function IncidentsTable({
   isLoading,
   onViewIncident,
 }: IncidentsTableProps) {
-  const getSeverityVariant = (sev?: string) => {
-    switch (sev?.toLowerCase()) {
+  const getSeverityVariant = (severity?: string) => {
+    switch (severity?.toLowerCase()) {
       case 'critical':
       case 'high':
         return 'destructive';
+
       case 'medium':
         return 'default';
+
       case 'low':
       default:
         return 'secondary';
@@ -37,12 +48,15 @@ export function IncidentsTable({
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A';
+
     try {
-      const d = new Date(dateString);
-      return d.toLocaleTimeString([], {
+      const date = new Date(dateString);
+
+      return date.toLocaleString([], {
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
+        day: '2-digit',
+        month: 'short',
       });
     } catch {
       return dateString;
@@ -50,79 +64,122 @@ export function IncidentsTable({
   };
 
   return (
-    <Card className="border-border bg-card">
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold">Triage & Incident History</CardTitle>
-        <CardDescription className="text-xs text-muted-foreground">
-          Historical log analysis records stored in MongoDB (soc_platform database).
-        </CardDescription>
+    <Card className="overflow-hidden border-border bg-card shadow-lg shadow-black/10">
+      <CardHeader className="flex flex-row items-start justify-between border-b border-border pb-6">
+        <div>
+          <CardTitle className="text-xl font-semibold">
+            Triage & Incident History
+          </CardTitle>
+
+          <CardDescription className="mt-2 text-sm">
+            Review completed security analyses and investigate recorded
+            incidents.
+          </CardDescription>
+        </div>
+
+        <div className="rounded-xl border border-border bg-background px-3 py-1.5 text-xs font-mono text-muted-foreground">
+          {incidents.length} records
+        </div>
       </CardHeader>
-      <CardContent>
+
+      <CardContent className="p-0">
         {isLoading ? (
-          <div className="py-8 text-center text-xs text-muted-foreground">
-            Loading incidents...
+          <div className="flex min-h-[300px] items-center justify-center">
+            <p className="text-sm text-muted-foreground">
+              Loading incident records...
+            </p>
           </div>
         ) : incidents.length === 0 ? (
-          <div className="py-8 text-center text-xs text-muted-foreground">
-            No incidents recorded yet. Select a log and run an analysis above.
+          <div className="flex min-h-[300px] flex-col items-center justify-center px-6 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-background font-mono text-sm text-muted-foreground">
+              0
+            </div>
+
+            <h3 className="mt-5 text-lg font-semibold text-foreground">
+              No incidents recorded
+            </h3>
+
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+              Completed security analyses will appear here once the backend
+              service is available.
+            </p>
           </div>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Log ID</TableHead>
-                <TableHead>Event Type</TableHead>
-                <TableHead>Severity</TableHead>
-                <TableHead>Risk Score</TableHead>
-                <TableHead>Source IP</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead className="text-right">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {incidents.map((incident) => {
-                const severity =
-                  incident.socAnalysis?.severity || incident.log?.severity || 'low';
-                const eventType = incident.log?.eventType || 'unknown';
-                const riskScore = incident.report?.riskScore ?? 'N/A';
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Log ID</TableHead>
+                  <TableHead>Event Type</TableHead>
+                  <TableHead>Severity</TableHead>
+                  <TableHead>Risk Score</TableHead>
+                  <TableHead>Source IP</TableHead>
+                  <TableHead>Created At</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
 
-                return (
-                  <TableRow key={incident._id || incident.logId}>
-                    <TableCell className="font-mono text-xs font-semibold text-foreground">
-                      {incident.logId}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
-                      {eventType}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getSeverityVariant(severity)}>
-                        {severity.toUpperCase()}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-xs font-medium text-foreground">
-                      {riskScore}/10
-                    </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
-                      {incident.log?.sourceIp || '-'}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground">
-                      {formatDate(incident.createdAt || incident.timestamp)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => onViewIncident(incident)}
-                        className="text-xs h-7 px-3"
-                      >
-                        View
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+              <TableBody>
+                {incidents.map((incident) => {
+                  const severity =
+                    incident.socAnalysis?.severity ||
+                    incident.log?.severity ||
+                    'low';
+
+                  const eventType =
+                    incident.log?.eventType || 'unknown';
+
+                  const riskScore =
+                    incident.report?.riskScore ?? 'N/A';
+
+                  return (
+                    <TableRow
+                      key={incident._id || incident.logId}
+                      className="hover:bg-muted/30"
+                    >
+                      <TableCell className="font-mono text-xs font-semibold">
+                        {incident.logId}
+                      </TableCell>
+
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        {eventType}
+                      </TableCell>
+
+                      <TableCell>
+                        <Badge variant={getSeverityVariant(severity)}>
+                          {severity.toUpperCase()}
+                        </Badge>
+                      </TableCell>
+
+                      <TableCell className="text-sm font-medium">
+                        {riskScore}/10
+                      </TableCell>
+
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        {incident.log?.sourceIp || '-'}
+                      </TableCell>
+
+                      <TableCell className="text-xs text-muted-foreground">
+                        {formatDate(
+                          incident.createdAt || incident.timestamp
+                        )}
+                      </TableCell>
+
+                      <TableCell className="text-right">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => onViewIncident(incident)}
+                        >
+                          View
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </CardContent>
     </Card>

@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import { Navbar } from './components/Navbar';
 import { StatsCards } from './components/StatsCards';
 import { LogAnalyzer } from './components/LogAnalyzer';
 import { IncidentsTable } from './components/IncidentsTable';
 import { IncidentDetailDialog } from './components/IncidentDetailDialog';
+
 import { getIncidents, analyzeLog } from './lib/api';
 import { Incident } from './types';
 
@@ -11,19 +13,32 @@ function App() {
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
-  const [latestIncident, setLatestIncident] = useState<Incident | null>(null);
-  const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
-  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const [latestIncident, setLatestIncident] =
+    useState<Incident | null>(null);
+
+  const [selectedIncident, setSelectedIncident] =
+    useState<Incident | null>(null);
+
+  const [isDetailOpen, setIsDetailOpen] =
+    useState<boolean>(false);
+
+  const [errorMsg, setErrorMsg] =
+    useState<string | null>(null);
 
   const fetchIncidents = async () => {
     try {
       setErrorMsg(null);
+
       const data = await getIncidents();
+
       setIncidents(data);
     } catch (err: any) {
       console.error('Error loading incidents:', err);
-      setErrorMsg('Failed to fetch historical incidents from backend.');
+
+      setErrorMsg(
+        'Failed to fetch historical incidents from backend.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -36,13 +51,23 @@ function App() {
   const handleAnalyze = async (logId: string) => {
     setIsAnalyzing(true);
     setErrorMsg(null);
+
     try {
       const newIncident = await analyzeLog(logId);
+
       setLatestIncident(newIncident);
-      setIncidents((prev) => [newIncident, ...prev]);
+
+      setIncidents((prev) => [
+        newIncident,
+        ...prev,
+      ]);
     } catch (err: any) {
       console.error('Analysis failed:', err);
-      setErrorMsg(err.message || 'Analysis failed to complete. Check backend service.');
+
+      setErrorMsg(
+        err.message ||
+          'Analysis failed to complete. Check backend service.'
+      );
     } finally {
       setIsAnalyzing(false);
     }
@@ -59,21 +84,34 @@ function App() {
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
         {errorMsg && (
-          <div className="p-4 border border-destructive/50 bg-destructive/10 text-destructive-foreground rounded-xl text-sm flex items-center justify-between">
-            <span>{errorMsg}</span>
+          <div className="p-4 border border-destructive/40 bg-destructive/10 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <p className="text-sm font-medium text-foreground">
+                Historical data unavailable
+              </p>
+
+              <p className="text-xs text-muted-foreground mt-1">
+                {errorMsg} The interface can still be explored using the
+                available sample security logs.
+              </p>
+            </div>
+
             <button
               onClick={() => setErrorMsg(null)}
-              className="text-xs underline hover:opacity-80"
+              className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground shrink-0"
             >
               Dismiss
             </button>
           </div>
         )}
 
-        {/* Top Summary Metrics */}
-        <StatsCards incidents={incidents} isLoading={isLoading} />
+        {/* Dashboard Summary */}
+        <StatsCards
+          incidents={incidents}
+          isLoading={isLoading}
+        />
 
-        {/* Live Analysis Execution Section */}
+        {/* Security Analysis Workspace */}
         <LogAnalyzer
           onAnalyze={handleAnalyze}
           isAnalyzing={isAnalyzing}
@@ -81,7 +119,7 @@ function App() {
           onViewDetails={handleViewIncident}
         />
 
-        {/* Historical Incidents Table */}
+        {/* Incident History */}
         <IncidentsTable
           incidents={incidents}
           isLoading={isLoading}
@@ -89,7 +127,7 @@ function App() {
         />
       </main>
 
-      {/* Incident Detail Modal / Tabs Breakdown */}
+      {/* Incident Detail Dialog */}
       <IncidentDetailDialog
         incident={selectedIncident}
         isOpen={isDetailOpen}
