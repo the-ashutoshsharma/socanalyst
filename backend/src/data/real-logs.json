@@ -1,0 +1,402 @@
+[
+  {
+    "id": "log-001",
+    "timestamp": "2005-06-14T15:16:01.000Z",
+    "sourceIp": "218.188.2.4",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "medium",
+    "rawLog": "Jun 14 15:16:01 combo sshd(pam_unix)[19939]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-002",
+    "timestamp": "2005-06-14T15:16:02.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 14 15:16:02 combo sshd(pam_unix)[19937]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-003",
+    "timestamp": "2005-06-15T04:06:18.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jun 15 04:06:18 combo su(pam_unix)[21416]: session opened for user cyrus by (uid=0)",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-004",
+    "timestamp": "2005-06-15T04:06:20.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "service_alert",
+    "severity": "medium",
+    "rawLog": "Jun 15 04:06:20 combo logrotate: ALERT exited abnormally with [1]",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-005",
+    "timestamp": "2005-06-15T12:13:19.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 15 12:13:19 combo sshd(pam_unix)[23414]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-006",
+    "timestamp": "2005-06-15T14:53:36.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 15 14:53:36 combo sshd(pam_unix)[23677]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-007",
+    "timestamp": "2005-06-17T07:07:00.000Z",
+    "sourceIp": "24.54.76.216",
+    "destIp": "10.0.0.1",
+    "eventType": "port_scan",
+    "severity": "medium",
+    "rawLog": "Jun 17 07:07:00 combo ftpd[29504]: connection from 24.54.76.216 (24-54-76-216.bflony.adelphia.net) at Fri Jun 17 07:07:00 2005 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-008",
+    "timestamp": "2005-06-18T01:30:59.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 18 01:30:59 combo sshd(pam_unix)[31200]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-009",
+    "timestamp": "2005-06-18T01:30:59.000Z",
+    "sourceIp": "adsl-70-242-75-179.dsl.ksc2mo.swbell.net",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jun 18 01:30:59 combo sshd(pam_unix)[31205]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=adsl-70-242-75-179.dsl.ksc2mo.swbell.net ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-010",
+    "timestamp": "2005-06-20T09:20:07.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 20 09:20:07 combo sshd(pam_unix)[10047]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-011",
+    "timestamp": "2005-06-22T03:18:22.000Z",
+    "sourceIp": "n219076184117.netvigator.com",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jun 22 03:18:22 combo sshd(pam_unix)[16250]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=n219076184117.netvigator.com  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-012",
+    "timestamp": "2005-06-22T04:30:55.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 22 04:30:55 combo sshd(pam_unix)[17137]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-013",
+    "timestamp": "2005-06-23T04:05:29.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jun 23 04:05:29 combo su(pam_unix)[19534]: session closed for user cyrus",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-014",
+    "timestamp": "2005-06-25T04:41:51.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 25 04:41:51 combo sshd(pam_unix)[31027]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-015",
+    "timestamp": "2005-06-27T08:05:39.000Z",
+    "sourceIp": "troi.bluesky-technologies.com",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jun 27 08:05:39 combo sshd(pam_unix)[8662]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=troi.bluesky-technologies.com  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-016",
+    "timestamp": "2005-06-29T10:48:17.000Z",
+    "sourceIp": "208.62.55.75",
+    "destIp": "10.0.0.1",
+    "eventType": "port_scan",
+    "severity": "medium",
+    "rawLog": "Jun 29 10:48:17 combo ftpd[15560]: connection from 208.62.55.75 () at Wed Jun 29 10:48:17 2005 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-017",
+    "timestamp": "2005-06-29T12:12:03.000Z",
+    "sourceIp": "h64-187-1-131.gtconnect.net",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jun 29 12:12:03 combo sshd(pam_unix)[15708]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=h64-187-1-131.gtconnect.net  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-018",
+    "timestamp": "2005-06-30T12:48:41.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jun 30 12:48:41 combo sshd(pam_unix)[18547]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-019",
+    "timestamp": "2005-06-30T20:53:04.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "medium",
+    "rawLog": "Jun 30 20:53:04 combo klogind[19288]: Kerberos authentication failed ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-020",
+    "timestamp": "2005-06-30T22:16:32.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jun 30 22:16:32 combo sshd(pam_unix)[19436]: session opened for user test by (uid=509)",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-021",
+    "timestamp": "2005-07-01T10:56:42.000Z",
+    "sourceIp": "195.129.24.210",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jul  1 10:56:42 combo sshd(pam_unix)[22273]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=195.129.24.210  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-022",
+    "timestamp": "2005-07-02T01:41:32.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul  2 01:41:32 combo sshd(pam_unix)[23533]: session closed for user test",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-023",
+    "timestamp": "2005-07-02T04:15:43.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jul  2 04:15:43 combo sshd(pam_unix)[24578]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-024",
+    "timestamp": "2005-07-06T04:03:10.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "service_alert",
+    "severity": "medium",
+    "rawLog": "Jul  6 04:03:10 combo logrotate: ALERT exited abnormally with [1]",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-025",
+    "timestamp": "2005-07-07T07:18:12.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul  7 07:18:12 combo sshd(pam_unix)[12518]: session opened for user test by (uid=509)",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-026",
+    "timestamp": "2005-07-07T14:18:58.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "brute_force",
+    "severity": "high",
+    "rawLog": "Jul  7 14:18:58 combo sshd(pam_unix)[13318]: check pass; user unknown",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-027",
+    "timestamp": "2005-07-07T14:18:58.000Z",
+    "sourceIp": "c9063558.virtua.com.br",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jul  7 14:18:58 combo sshd(pam_unix)[13318]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c9063558.virtua.com.br ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-028",
+    "timestamp": "2005-07-07T16:33:52.000Z",
+    "sourceIp": "202.82.200.188",
+    "destIp": "10.0.0.1",
+    "eventType": "port_scan",
+    "severity": "medium",
+    "rawLog": "Jul  7 16:33:52 combo ftpd[13513]: connection from 202.82.200.188 () at Thu Jul  7 16:33:52 2005 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-029",
+    "timestamp": "2005-07-10T04:10:47.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul 10 04:10:47 combo su(pam_unix)[26353]: session closed for user news",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-030",
+    "timestamp": "2005-07-10T07:24:34.000Z",
+    "sourceIp": "82.83.227.67",
+    "destIp": "10.0.0.1",
+    "eventType": "port_scan",
+    "severity": "medium",
+    "rawLog": "Jul 10 07:24:34 combo ftpd[29728]: connection from 82.83.227.67 (dsl-082-083-227-067.arcor-ip.net) at Sun Jul 10 07:24:34 2005 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-031",
+    "timestamp": "2005-07-10T16:02:14.000Z",
+    "sourceIp": "150.183.249.110",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jul 10 16:02:14 combo sshd(pam_unix)[30585]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=150.183.249.110  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-032",
+    "timestamp": "2005-07-10T16:03:12.000Z",
+    "sourceIp": "150.183.249.110",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jul 10 16:03:12 combo sshd(pam_unix)[30675]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=150.183.249.110  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-033",
+    "timestamp": "2005-07-12T06:09:44.000Z",
+    "sourceIp": "68.143.156.89.nw.nuvox.net",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jul 12 06:09:44 combo sshd(pam_unix)[4061]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=68.143.156.89.nw.nuvox.net  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-034",
+    "timestamp": "2005-07-17T12:30:48.000Z",
+    "sourceIp": "207.30.238.8",
+    "destIp": "10.0.0.1",
+    "eventType": "port_scan",
+    "severity": "medium",
+    "rawLog": "Jul 17 12:30:48 combo ftpd[24199]: connection from 207.30.238.8 (host8.topspot.net) at Sun Jul 17 12:30:48 2005 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-035",
+    "timestamp": "2005-07-18T04:03:24.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul 18 04:03:24 combo su(pam_unix)[26046]: session opened for user cyrus by (uid=0)",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-036",
+    "timestamp": "2005-07-19T07:35:41.000Z",
+    "sourceIp": "202.181.236.180",
+    "destIp": "10.0.0.1",
+    "eventType": "failed_login",
+    "severity": "high",
+    "rawLog": "Jul 19 07:35:41 combo sshd(pam_unix)[30511]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.181.236.180  user=root",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-037",
+    "timestamp": "2005-07-21T09:04:43.000Z",
+    "sourceIp": "216.12.111.241",
+    "destIp": "10.0.0.1",
+    "eventType": "port_scan",
+    "severity": "medium",
+    "rawLog": "Jul 21 09:04:43 combo ftpd[5038]: connection from 216.12.111.241 () at Thu Jul 21 09:04:43 2005 ",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-038",
+    "timestamp": "2005-07-25T12:27:05.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul 25 12:27:05 combo named[2306]: notify question section contains no SOA",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-039",
+    "timestamp": "2005-07-27T14:41:57.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul 27 14:41:57 combo kernel: 126MB LOWMEM available.",
+    "hostname": "combo"
+  },
+  {
+    "id": "log-040",
+    "timestamp": "2005-07-27T14:41:58.000Z",
+    "sourceIp": "internal",
+    "destIp": "10.0.0.1",
+    "eventType": "normal_traffic",
+    "severity": "low",
+    "rawLog": "Jul 27 14:41:58 combo kernel: Intel machine check reporting enabled on CPU#0.",
+    "hostname": "combo"
+  }
+]

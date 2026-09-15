@@ -8,7 +8,7 @@ A modern Security Operations Center (SOC) platform monorepo.
 soc-platform/
 ├── backend/    # Node.js + Express + TypeScript API server
 ├── frontend/   # React + Vite + TypeScript + Tailwind CSS client
-└── shared/     # Shared sample logs and MITRE data
+└── shared/     # Shared real logs (LogHub Linux dataset) and MITRE data
 ```
 
 ## Getting Started

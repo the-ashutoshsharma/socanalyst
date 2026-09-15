@@ -2,6 +2,17 @@ import { Incident, LogEntry } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
+export async function getLogs(): Promise<LogEntry[]> {
+  const response = await fetch(`${API_BASE_URL}/api/logs`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch logs: ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return result.data || [];
+}
+
 export async function analyzeLog(logIdOrLog: string | LogEntry): Promise<Incident> {
   const payload = typeof logIdOrLog === 'string' ? { logId: logIdOrLog } : { log: logIdOrLog };
   

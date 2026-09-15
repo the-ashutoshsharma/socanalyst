@@ -4,12 +4,14 @@ import { StatsCards } from './components/StatsCards';
 import { LogAnalyzer } from './components/LogAnalyzer';
 import { IncidentsTable } from './components/IncidentsTable';
 import { IncidentDetailDialog } from './components/IncidentDetailDialog';
-import { getIncidents, analyzeLog } from './lib/api';
-import { Incident } from './types';
+import { getIncidents, getLogs, analyzeLog } from './lib/api';
+import { Incident, LogEntry } from './types';
 
 function App() {
   const [incidents, setIncidents] = useState<Incident[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [isLoadingIncidents, setIsLoadingIncidents] = useState<boolean>(true);
+  const [isLoadingLogs, setIsLoadingLogs] = useState<boolean>(true);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [latestIncident, setLatestIncident] = useState<Incident | null>(null);
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
@@ -18,19 +20,31 @@ function App() {
 
   const fetchIncidents = async () => {
     try {
-      setErrorMsg(null);
       const data = await getIncidents();
       setIncidents(data);
     } catch (err: any) {
       console.error('Error loading incidents:', err);
       setErrorMsg('Failed to fetch historical incidents from backend.');
     } finally {
-      setIsLoading(false);
+      setIsLoadingIncidents(false);
+    }
+  };
+
+  const fetchLogs = async () => {
+    try {
+      const data = await getLogs();
+      setLogs(data);
+    } catch (err: any) {
+      console.error('Error loading logs:', err);
+      setErrorMsg('Failed to fetch real log dataset from backend.');
+    } finally {
+      setIsLoadingLogs(false);
     }
   };
 
   useEffect(() => {
     fetchIncidents();
+    fetchLogs();
   }, []);
 
   const handleAnalyze = async (logId: string) => {
@@ -71,10 +85,12 @@ function App() {
         )}
 
         {/* Top Summary Metrics */}
-        <StatsCards incidents={incidents} isLoading={isLoading} />
+        <StatsCards incidents={incidents} isLoading={isLoadingIncidents} />
 
         {/* Live Analysis Execution Section */}
         <LogAnalyzer
+          logs={logs}
+          isLoadingLogs={isLoadingLogs}
           onAnalyze={handleAnalyze}
           isAnalyzing={isAnalyzing}
           latestIncident={latestIncident}
@@ -84,7 +100,7 @@ function App() {
         {/* Historical Incidents Table */}
         <IncidentsTable
           incidents={incidents}
-          isLoading={isLoading}
+          isLoading={isLoadingIncidents}
           onViewIncident={handleViewIncident}
         />
       </main>

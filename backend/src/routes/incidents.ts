@@ -2,9 +2,18 @@ import { Router, Request, Response } from 'express';
 import { runFullAnalysis } from '../orchestrator';
 import { Incident } from '../models/Incident';
 import { LogEntry } from '../types';
-import sampleLogs from '../data/sample-logs.json';
+import realLogs from '../data/real-logs.json';
 
 const router = Router();
+
+// GET /api/logs - Returns the real log dataset for selection and analysis
+router.get('/logs', (_req: Request, res: Response): void => {
+  res.json({
+    success: true,
+    count: (realLogs as LogEntry[]).length,
+    data: realLogs,
+  });
+});
 
 // POST /api/analyze - Analyzes a log entry (provided in body or selected by logId) and saves incident
 router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
@@ -14,16 +23,16 @@ router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
     if (req.body.log) {
       log = req.body.log;
     } else if (req.body.logId) {
-      log = (sampleLogs as LogEntry[]).find((l) => l.id === req.body.logId);
+      log = (realLogs as LogEntry[]).find((l) => l.id === req.body.logId);
       if (!log) {
-        res.status(404).json({ error: `Log with id '${req.body.logId}' not found in sample logs.` });
+        res.status(404).json({ error: `Log with id '${req.body.logId}' not found in dataset.` });
         return;
       }
     } else if (req.body.id && req.body.rawLog) {
       log = req.body as LogEntry;
     } else {
-      // Default to first sample log if nothing provided
-      log = sampleLogs[0] as LogEntry;
+      // Default to first real log if nothing provided
+      log = realLogs[0] as LogEntry;
     }
 
     if (!log) {

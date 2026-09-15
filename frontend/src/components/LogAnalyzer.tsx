@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LogEntry, Incident } from '@/types';
-import sampleLogsData from '@/data/sample-logs.json';
 
 interface LogAnalyzerProps {
+  logs: LogEntry[];
+  isLoadingLogs: boolean;
   onAnalyze: (logId: string) => Promise<void>;
   isAnalyzing: boolean;
   latestIncident: Incident | null;
@@ -14,23 +15,30 @@ interface LogAnalyzerProps {
 }
 
 export function LogAnalyzer({
+  logs,
+  isLoadingLogs,
   onAnalyze,
   isAnalyzing,
   latestIncident,
   onViewDetails,
 }: LogAnalyzerProps) {
-  const sampleLogs = sampleLogsData as LogEntry[];
-  const [selectedLogId, setSelectedLogId] = useState<string>(sampleLogs[1]?.id || sampleLogs[0].id);
+  const [selectedLogId, setSelectedLogId] = useState<string>('');
 
-  const selectedLog = sampleLogs.find((l) => l.id === selectedLogId) || sampleLogs[0];
+  useEffect(() => {
+    if (logs.length > 0 && (!selectedLogId || !logs.some((l) => l.id === selectedLogId))) {
+      setSelectedLogId(logs[0].id);
+    }
+  }, [logs, selectedLogId]);
+
+  const selectedLog = logs.find((l) => l.id === selectedLogId) || logs[0];
 
   const handleRun = async () => {
     if (!selectedLogId || isAnalyzing) return;
     await onAnalyze(selectedLogId);
   };
 
-  const getSeverityVariant = (sev: string) => {
-    switch (sev.toLowerCase()) {
+  const getSeverityVariant = (sev?: string) => {
+    switch (sev?.toLowerCase()) {
       case 'critical':
       case 'high':
         return 'destructive';
@@ -49,12 +57,12 @@ export function LogAnalyzer({
           <div>
             <CardTitle className="text-lg font-semibold">Run Security Analysis</CardTitle>
             <CardDescription className="text-xs text-muted-foreground mt-1">
-              Select a security log to execute the 5-agent AI triage & threat correlation pipeline.
+              Select a genuine log from the LogHub Linux auth.log dataset to execute the 5-agent AI triage & threat correlation pipeline.
             </CardDescription>
           </div>
           <Button
             onClick={handleRun}
-            disabled={isAnalyzing}
+            disabled={isAnalyzing || isLoadingLogs || !selectedLog}
             className="w-full sm:w-auto font-medium"
           >
             {isAnalyzing ? 'Executing AI Pipeline...' : 'Run Analysis'}
@@ -64,49 +72,57 @@ export function LogAnalyzer({
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground">Select Sample Log</label>
-            <select
-              value={selectedLogId}
-              onChange={(e) => setSelectedLogId(e.target.value)}
-              disabled={isAnalyzing}
-              aria-label="Select Sample Log"
-              className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              {sampleLogs.map((log) => (
-                <option key={log.id} value={log.id}>
-                  [{log.id}] {log.eventType} ({log.severity.toUpperCase()}) - {log.hostname}
-                </option>
-              ))}
-            </select>
+            <label className="text-xs font-medium text-muted-foreground">Select Real System Log</label>
+            {isLoadingLogs ? (
+              <Skeleton className="h-10 w-full rounded-lg" />
+            ) : (
+              <select
+                value={selectedLogId}
+                onChange={(e) => setSelectedLogId(e.target.value)}
+                disabled={isAnalyzing || logs.length === 0}
+                aria-label="Select System Log"
+                className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              >
+                {logs.map((log) => (
+                  <option key={log.id} value={log.id}>
+                    [{log.id}] {log.eventType} ({log.severity.toUpperCase()}) - {log.hostname} ({log.sourceIp})
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 pt-6 md:pt-6">
-            <span className="text-xs text-muted-foreground">Event Type:</span>
-            <span className="text-xs font-mono bg-muted px-2 py-1 rounded">
-              {selectedLog.eventType}
-            </span>
+          {selectedLog && (
+            <div className="flex flex-wrap items-center gap-3 pt-2 md:pt-6">
+              <span className="text-xs text-muted-foreground">Event Type:</span>
+              <span className="text-xs font-mono bg-muted px-2 py-1 rounded">
+                {selectedLog.eventType}
+              </span>
 
-            <span className="text-xs text-muted-foreground ml-2">Initial Severity:</span>
-            <Badge variant={getSeverityVariant(selectedLog.severity)}>
-              {selectedLog.severity.toUpperCase()}
-            </Badge>
+              <span className="text-xs text-muted-foreground ml-2">Initial Severity:</span>
+              <Badge variant={getSeverityVariant(selectedLog.severity)}>
+                {selectedLog.severity.toUpperCase()}
+              </Badge>
 
-            <span className="text-xs text-muted-foreground ml-2">Host:</span>
-            <span className="text-xs font-mono text-foreground">{selectedLog.hostname}</span>
-          </div>
+              <span className="text-xs text-muted-foreground ml-2">Host:</span>
+              <span className="text-xs font-mono text-foreground">{selectedLog.hostname}</span>
+            </div>
+          )}
         </div>
 
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">Raw Telemetry</span>
-            <span className="text-xs font-mono text-muted-foreground">
-              {selectedLog.sourceIp} &rarr; {selectedLog.destIp}
-            </span>
+        {selectedLog && (
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Real Unmodified Log Telemetry</span>
+              <span className="text-xs font-mono text-muted-foreground">
+                Source: {selectedLog.sourceIp} &rarr; Host: {selectedLog.hostname}
+              </span>
+            </div>
+            <div className="bg-background border border-border p-3 rounded-lg font-mono text-xs text-muted-foreground overflow-x-auto">
+              <code>{selectedLog.rawLog}</code>
+            </div>
           </div>
-          <div className="bg-background border border-border p-3 rounded-lg font-mono text-xs text-muted-foreground overflow-x-auto">
-            <code>{selectedLog.rawLog}</code>
-          </div>
-        </div>
+        )}
 
         {/* Loading State Skeleton */}
         {isAnalyzing && (
