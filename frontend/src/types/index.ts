@@ -69,3 +69,39 @@ export interface Incident {
   createdAt: string;
   updatedAt?: string;
 }
+
+export interface UploadSummary {
+  totalLines: number;
+  parsedCount: number;
+  skippedCount: number;
+}
+
+export interface UploadResponse {
+  uploadId: string;
+  filename: string;
+  fileType: 'pdf' | 'txt';
+  fileSize: number;
+  summary: UploadSummary;
+  logs: LogEntry[];
+}
+
+export interface ConsolidatedUploadReport {
+  _id?: string;
+  uploadId: string;
+  filename: string;
+  summary: {
+    totalLogs: number;
+    severityCounts: {
+      critical: number;
+      high: number;
+      medium: number;
+      low: number;
+    };
+    riskScore: number;
+  };
+  mitreTechniques: MitreTechniqueMatch[];
+  cves: CveMatch[];
+  executiveReport: IncidentReport;
+  incidents: Incident[];
+  createdAt: string;
+}

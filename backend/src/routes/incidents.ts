@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { runFullAnalysis } from '../orchestrator';
 import { Incident } from '../models/Incident';
+import { memoryStore } from '../services/memoryStore';
 import { LogEntry } from '../types';
 import realLogs from '../data/real-logs.json';
 
@@ -43,13 +45,18 @@ router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
     // Run AI multi-agent orchestration
     const analysisResult = await runFullAnalysis(log);
 
-    // Save result to MongoDB
+    // Save in memory store
+    memoryStore.addIncident(analysisResult);
+
+    // Save result to MongoDB if connected
     let savedIncident = null;
-    try {
-      const incidentDoc = new Incident(analysisResult);
-      savedIncident = await incidentDoc.save();
-    } catch (dbError) {
-      console.error('Failed to persist incident to MongoDB:', dbError);
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const incidentDoc = new Incident(analysisResult);
+        savedIncident = await incidentDoc.save();
+      } catch (dbError: any) {
+        console.warn('[MongoDB] Warning: Failed to persist incident to MongoDB:', dbError.message);
+      }
     }
 
     res.json({
@@ -65,10 +72,24 @@ router.post('/analyze', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// GET /api/incidents - Returns all saved incidents from MongoDB
+// GET /api/incidents - Returns all saved incidents from MongoDB / memory store
 router.get('/incidents', async (_req: Request, res: Response): Promise<void> => {
   try {
-    const incidents = await Incident.find().sort({ createdAt: -1 });
+    let incidents: any[] = [];
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        incidents = await Incident.find().sort({ createdAt: -1 });
+      } catch (dbError) {
+        console.warn('[MongoDB] Warning: Failed to fetch incidents from MongoDB.');
+      }
+    }
+
+    // If MongoDB returned nothing or isn't connected, check memory store
+    if (incidents.length === 0) {
+      incidents = memoryStore.getIncidents();
+    }
+
     res.json({
       success: true,
       count: incidents.length,
@@ -89,13 +110,21 @@ router.get('/incidents/:id', async (req: Request, res: Response): Promise<void> 
     const id = req.params.id;
     let incident = null;
 
-    // Check if ID is a valid MongoDB ObjectId or matches logId
-    if (typeof id === 'string' && /^[0-9a-fA-F]{24}$/.test(id)) {
-      incident = await Incident.findById(id);
+    if (mongoose.connection.readyState === 1) {
+      try {
+        if (typeof id === 'string' && /^[0-9a-fA-F]{24}$/.test(id)) {
+          incident = await Incident.findById(id);
+        }
+        if (!incident && typeof id === 'string') {
+          incident = await Incident.findOne({ logId: id });
+        }
+      } catch (dbError) {
+        console.warn(`[MongoDB] Warning: Failed to query MongoDB for incident ${id}`);
+      }
     }
 
     if (!incident && typeof id === 'string') {
-      incident = await Incident.findOne({ logId: id });
+      incident = memoryStore.getIncidentById(id);
     }
 
     if (!incident) {

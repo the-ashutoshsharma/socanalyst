@@ -4,6 +4,8 @@ import cors from 'cors';
 import { connectDB } from './config/db';
 import { groq, GROQ_MODEL } from './config/groq';
 import incidentsRouter from './routes/incidents';
+import uploadRouter from './routes/upload';
+import analyzeBatchRouter from './routes/analyzeBatch';
 
 dotenv.config();
 
@@ -11,7 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Connect to MongoDB
 connectDB();
@@ -48,8 +51,10 @@ app.get('/api/test-groq', async (_req: Request, res: Response) => {
   }
 });
 
-// Mount incident routes (/api/analyze, /api/incidents, /api/incidents/:id)
+// Mount API routes
 app.use('/api', incidentsRouter);
+app.use('/api', uploadRouter);
+app.use('/api', analyzeBatchRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
